@@ -1,0 +1,18 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        BASE_PATH: ${BASE_PATH:-/}
+        NEXT_PUBLIC_BASE_PATH: "/bea21f62-478d-4f82-a26f-00025bf39b82"
+        VITE_BASE_PATH: "/bea21f62-478d-4f82-a26f-00025bf39b82"
+    expose:
+      - "80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 3s
+      start_period: 30s
+      retries: 3
